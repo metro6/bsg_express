@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>BSG Express Client (Пошаговая версия)</title>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: auto; padding: 20px; }
+        .status-message { padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+        #turn-status.active { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        #turn-status.waiting { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        .dice-image { width: 50px; height: 50px; border: 1px solid #ccc; border-radius: 5px; vertical-align: middle; }
+        #crisis-die-1, #crisis-die-2 { display: none; }
+        .choice-container { margin-top: 15px; padding: 10px; border: 1px solid #000; background-color: #f0f0f0; }
+        .die-choice-btn { cursor: pointer; padding: 5px; margin: 5px; border: 2px solid transparent; background: none; }
+        .die-choice-btn:hover { border-color: #333; }
+        #game-log { height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; background: #fff; }
+        #used-dice-display { margin-top: 10px; padding: 10px; border: 1px solid #ddd; background-color: #fafafa; }
+        .used-die-icon { width: 30px; height: 30px; margin: 2px; opacity: 0.7; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Клиент BSG Express (Пошаговый)</h1>
+    <p>Статус: <strong id="connection-status" style="color: gray;">Подключение...</strong> | Игрок: <strong id="player-name">N/A</strong> | Игроков: <strong id="players-count">1</strong></p>
+
+    <div id="turn-status" class="status-message">Сейчас ход: <strong id="active-player-name">N/A</strong></div>
+
+    <div id="dice-reserve-status">
+        Активных кубиков в запасе: <strong id="active-dice-count">0</strong>
+        <br>Использованных кубиков: <strong id="used-dice-count">0</strong>
+        <div id="used-dice-display">
+            <!-- Здесь будут иконки использованных кубиков -->
+        </div>
+    </div>
+
+    <hr>
+    <button onclick="playerRollsDice()" id="roll-dice-button" disabled>Бросить ВСЕ активные кубики за ширмой</button>
+    <button onclick="passTurn()" id="pass-turn-button" disabled>Пас (Передать ход)</button>
+    <button onclick="revealDice()" id="reveal-button">Подсчитать миссию</button>
+
+    <div id="choice-area" class="choice-container" style="display: none;">
+        <p>Выберите кубик для выставления на поле. Вы можете повторить бросок оставшихся или спасовать.</p>
+        <div id="choices-list"></div>
+    </div>
+
+    <div id="mission-results-area" style="margin-top: 20px;"></div>
+
+    <hr>
+    <button onclick="rollCrisis()">Бросить кубики кризисов</button>
+
+    <div id="crisis-results" style="display: flex; gap: 10px; margin-top: 10px;">
+        <img id="crisis-die-1" class="dice-image" src="" alt="Кубик кризиса 1">
+        <img id="crisis-die-2" class="dice-image" src="" alt="Кубик кризиса 2">
+    </div>
+
+    <hr>
+    <h2>Лог игры:</h2>
+    <div id="game-log"></div>
+
+    <script src="client.js"></script>
+</body>
+</html>
